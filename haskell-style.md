@@ -22,8 +22,7 @@ Table of contents
   11. [Case expressions](#1xicase-expressions)
 2. [Imports](#2imports)
 3. [Comments](#3comments)
-  1. [Punctuation](#3ipunctuation)
-  2. [Top-level definitions](#3iitop-level-definitions)
+  1. [Top-level definitions](#3iitop-level-definitions)
 4. [Naming](#4naming)
   1. [Modules](#4imodules)
 5. [Dealing with laziness](#5dealing-with-laziness)
@@ -38,7 +37,8 @@ Table of contents
 
 ### 1.i.&emsp;Line length
 
-Lines should not be longer than *80 characters*.
+Lines should not be longer than *80 characters*. URLs and inline
+markup within comments are an exception to this rule.
 
 ### 1.ii.&emsp;Indentation
 
@@ -244,7 +244,7 @@ foobar = case something of
              Nothing -> bar
 ```
 
-Align the `->` arrows when it helps readability.
+Align the arrows (`->`) when it helps readability.
 
 2.&emsp;Imports
 ----------
@@ -265,12 +265,7 @@ changes in these libraries.  Exception: the Prelude.
 3.&emsp;Comments
 -----------
 
-### 3.i.&emsp;Punctuation
-
-Write proper sentences; start with a capital letter and use proper
-punctuation.
-
-### 3.ii.&emsp;Top-level definitions
+### 3.i.&emsp;Top-level definitions
 
 Comment every top-level function (particularly exported functions),
 and provide a type signature; use Haddock syntax in the comments.
@@ -351,7 +346,7 @@ abbreviation.  For example, write `HttpServer` instead of
 
 ### 4.i.&emsp;Modules
 
-Use singular when naming modules; e.g., use `Data.Map` and
+Use the singular when naming modules; e.g., use `Data.Map` and
 `Data.ByteString.Internal` instead of `Data.Maps` and
 `Data.ByteString.Internals`.
 
