@@ -1,23 +1,23 @@
-Haskell Style Guide
+Haskell style guide
 ===================
 
-This is a short document describing the preferred coding style for
-this project.  I've tried to cover the major areas of formatting and
-naming.  When something isn't covered by this guide you should stay
-consistent with the code in the other modules.
+This document describes the preferred coding style for
+this project. It tries to cover the major areas of formatting and
+naming. When something is not covered by this guide, you should stay
+consistent with the code in other modules.
 
 Formatting
 ----------
 
-### Line Length
+### Line length
 
-Maximum line length is *80 characters*.
+Lines should not be longer than *80 characters*.
 
 ### Indentation
 
-Tabs are illegal. Use spaces for indenting.  Indent your code blocks
+Tabs must not be used; use spaces for indenting. Indent code blocks
 with *4 spaces*.  Indent the `where` keyword two spaces to set it
-apart from the rest of the code and indent the definitions in a
+apart from the rest of the code, and indent the definitions in a
 `where` clause 2 spaces. Some examples:
 
 ```haskell
@@ -35,30 +35,29 @@ filter p (x:xs)
     | otherwise = filter p xs
 ```
 
-### Blank Lines
+### Blank lines
 
-One blank line between top-level definitions.  No blank lines between
+Use one blank line between top-level definitions. Do not place blank lines between
 type signatures and function definitions.  Add one blank line between
 functions in a type class instance declaration if the functions bodies
-are large.  Use your judgement.
+are large.
 
 ### Whitespace
 
-Surround binary operators with a single space on either side.  Use
-your better judgement for the insertion of spaces around arithmetic
-operators but always be consistent about whitespace on either side of
-a binary operator.  Don't insert a space after a lambda.
+Surround binary operators with a single space on either side; this is
+optional for arithmetic operators. Do not insert a space after the
+lambda symbol (`\`).
 
-### Data Declarations
+### Data declarations
 
-Align the constructors in a data type definition.  Example:
+Align constructors in a data type definition. For example:
 
 ```haskell
 data Tree a = Branch !a !(Tree a) !(Tree a)
             | Leaf
 ```
 
-For long type names the following formatting is also acceptable:
+For long type names, the following formatting is also acceptable:
 
 ```haskell
 data HttpException
@@ -76,9 +75,9 @@ data Person = Person
     } deriving (Eq, Show)
 ```
 
-### List Declarations
+### List declarations
 
-Align the elements in the list.  Example:
+Align the elements in the list. For example:
 
 ```haskell
 exceptions =
@@ -88,7 +87,7 @@ exceptions =
     ]
 ```
 
-Optionally, you can skip the first newline.  Use your judgement.
+You may omit the first newline.
 
 ```haskell
 directions = [ North
@@ -100,8 +99,8 @@ directions = [ North
 
 ### Pragmas
 
-Put pragmas immediately following the function they apply to.
-Example:
+Place pragmas immediately following the function they apply to.
+For example:
 
 ```haskell
 id :: a -> a
@@ -109,8 +108,8 @@ id x = x
 {-# INLINE id #-}
 ```
 
-In the case of data type definitions you must put the pragma before
-the type it applies to.  Example:
+In the case of data type definitions, you must put the pragma before
+the type it applies to. For example:
 
 ```haskell
 data Array e = Array
@@ -118,10 +117,9 @@ data Array e = Array
     !ByteArray
 ```
 
-### Hanging Lambdas
+### Hanging lambdas
 
-You may or may not indent the code following a "hanging" lambda.  Use
-your judgement. Some examples:
+You may indent the code following a "hanging" lambda. Some examples:
 
 ```haskell
 bar :: IO ()
@@ -135,7 +133,7 @@ foo = alloca 10 $ \a ->
       cFunction a b
 ```
 
-### Export Lists
+### Export lists
 
 Format export lists as follows:
 
@@ -154,12 +152,12 @@ module Data.Set
 
 ### If-then-else clauses
 
-Generally, guards and pattern matches should be preferred over if-then-else
-clauses, where possible.  Short cases should usually be put on a single line
-(when line length allows it).
+Guards and pattern matches should be preferred over if-then-else
+clauses where possible.  Short cases should be placed on a single line
+when line length allows it.
 
-When writing non-monadic code (i.e. when not using `do`) and guards
-and pattern matches can't be used, you can align if-then-else clauses
+When writing non-monadic code (i.e., when not using `do`) and guards
+and pattern matches cannot be used, you can align if-then-else clauses
 you like you would normal expressions:
 
 ```haskell
@@ -168,7 +166,7 @@ foo = if ...
       else ...
 ```
 
-Otherwise, you should be consistent with the 4-spaces indent rule, and the
+Otherwise, you should be consistent with the 4-space indent rule, and the
 `then` and the `else` keyword should be aligned.  Examples:
 
 ```haskell
@@ -231,11 +229,11 @@ Imports should be grouped in the following order:
 3. local application/library specific imports
 
 Put a blank line between each group of imports.  The imports in each
-group should be sorted alphabetically, by module name.
+group should be sorted alphabetically by module name.
 
 Always use explicit import lists or `qualified` imports for standard
-and third party libraries.  This makes the code more robust against
-changes in these libraries.  Exception: The Prelude.
+and third-party libraries.  This makes the code more robust against
+changes in these libraries.  Exception: the Prelude.
 
 Comments
 --------
@@ -245,9 +243,9 @@ Comments
 Write proper sentences; start with a capital letter and use proper
 punctuation.
 
-### Top-Level Definitions
+### Top-level definitions
 
-Comment every top level function (particularly exported functions),
+Comment every top-level function (particularly exported functions),
 and provide a type signature; use Haddock syntax in the comments.
 Comment every exported data type.  Function example:
 
@@ -260,7 +258,7 @@ send :: Socket      -- ^ Connected socket
      -> IO Int      -- ^ Bytes sent
 ```
 
-For functions the documentation should give enough information to
+For functions, the documentation should give enough information to
 apply the function without looking at the function's definition.
 
 Record example:
@@ -273,7 +271,7 @@ data Person = Person
     }
 ```
 
-For fields that require longer comments format them like so:
+For fields that require longer comments, format them like so:
 
 ```haskell
 data Record = Record
@@ -287,7 +285,7 @@ data Record = Record
     }
 ```
 
-### End-of-Line Comments
+### End-of-line comments
 
 Separate end-of-line comments from the code using 2 spaces.  Align
 comments for data type definitions.  Some examples:
@@ -307,28 +305,26 @@ foo n = salt * 32 + 9
 
 Use in-line links economically.  You are encouraged to add links for
 API names.  It is not necessary to add links for all API names in a
-Haddock comment.  We therefore recommend adding a link to an API name
-if:
+Haddock comment.  You should add a link to an API name if
 
-* The user might actually want to click on it for more information (in
-  your judgment), and
+* a user might actually want to click on it for more information and
 
-* Only for the first occurrence of each API name in the comment (don't
-  bother repeating a link)
+* only for the first occurrence of each API name in the comment (do not
+  bother repeating a link).
 
 Naming
 ------
 
-Use camel case (e.g. `functionName`) when naming functions and upper
-camel case (e.g. `DataType`) when naming data types.
+Use camel case (e.g., `functionName`) when naming functions and upper
+camel case (e.g., `DataType`) when naming data types.
 
-For readability reasons, don't capitalize all letters when using an
+For readability reasons, do not capitalize all letters when using an
 abbreviation.  For example, write `HttpServer` instead of
-`HTTPServer`.  Exception: Two letter abbreviations, e.g. `IO`.
+`HTTPServer`.  Exception: two letter abbreviations (e.g., `IO`).
 
 ### Modules
 
-Use singular when naming modules e.g. use `Data.Map` and
+Use singular when naming modules; e.g., use `Data.Map` and
 `Data.ByteString.Internal` instead of `Data.Maps` and
 `Data.ByteString.Internals`.
 
@@ -339,9 +335,9 @@ By default, use strict data types and lazy functions.
 
 ### Data types
 
-Constructor fields should be strict, unless there's an explicit reason
+Constructor fields should be strict unless there is an explicit reason
 to make them lazy. This avoids many common pitfalls caused by too much
-laziness and reduces the number of brain cycles the programmer has to
+laziness and reduces the amount of time the programmer has to
 spend thinking about evaluation order.
 
 ```haskell
@@ -370,25 +366,25 @@ data Point = Point
     }
 ```
 
-As an alternative to the `UNPACK` pragma, you can put
+As an alternative to the `UNPACK` pragma, you may place
 
 ```haskell
 {-# OPTIONS_GHC -funbox-strict-fields #-}
 ```
 
-at the top of the file. Including this flag in the file inself instead
-of e.g. in the Cabal file is preferable as the optimization will be
-applied even if someone compiles the file using other means (i.e. the
+at the top of the file. Including this flag in the file itself instead
+of in the `.cabal` file is preferable as the optimization will be
+applied even if someone compiles the file using other means (i.e., the
 optimization is attached to the source code it belongs to).
 
 Note that `-funbox-strict-fields` applies to all strict fields, not
-just small fields (e.g. `Double` or `Int`). If you're using GHC 7.4 or
-later you can use `NOUNPACK` to selectively opt-out for the unpacking
+just small fields (e.g., `Double` or `Int`). If you are using GHC 7.4 or
+later, you can use `NOUNPACK` to selectively opt-out for the unpacking
 enabled by `-funbox-strict-fields`.
 
 ### Functions
 
-Have function arguments be lazy unless you explicitly need them to be
+Make function arguments lazy unless you explicitly need them to be
 strict.
 
 The most common case when you need strict function arguments is in
@@ -402,19 +398,17 @@ mysum = go 0
     go acc (x:xs) = go (acc + x) xs
 ```
 
-Misc
-----
+Miscellaneous
+-------------
 
-### Point-free style ###
+### Point-free style
 
 Avoid over-using point-free style. For example, this is hard to read:
 
 ```haskell
--- Bad:
 f = (g .) . h
 ```
 
-### Warnings ###
+### Warnings
 
-Code should be compilable with `-Wall -Werror`. There should be no
-warnings.
+Code should not produce warnings when compiled with `-Wall`.
