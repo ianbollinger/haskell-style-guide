@@ -39,7 +39,7 @@ Table of contents
 6. [Miscellaneous](#6miscellaneous)
   1. [Avoid over-using point-free style](#6iavoid-over-using-point-free-style)
   2. [Code must be warning-free](#6iicode-must-be-warning-free)
-  3. [Do not escape newlines in strings](#6iido-not-escape-newlines-in-strings)
+  3. [Do not escape newlines in strings](#6iiido-not-escape-newlines-in-strings)
 
 1.&emsp;Formatting
 ------------------
@@ -457,4 +457,4 @@ Code should not produce warnings when compiled with `-Wall`.
 
 ### 6.iii.&emsp;Do not escape newlines in strings
 
-Escaped newlines will make using the @CPP@ language extension impossible.
+Escaped newlines will make using the `CPP` language extension impossible.
