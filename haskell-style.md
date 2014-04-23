@@ -15,19 +15,24 @@ Table of contents
   2. [Indent with spaces, not tabs](#1iiindent-with-spaces-not-tabs)
   3. [Separate top-level definitions with a blank line](#1iiiseparate-top-level-definitions-with-a-blank-line)
   4. [Whitespace](#1ivwhitespace)
-  5. [Lines must not have trailing spaces](#1vlines-must-not-have-trailing-spaces)
-  5. [Align data type constructors](#1vialign-data-type-constructors)
-  6. [Align elements in a list](#1viialign-elements-in-a-list)
-  7. [Place pragmas after function definitions](#1viiiplace-pragmas-after-function-definitions)
-  8. [Hanging lambdas](#1ixhanging-lambdas)
-  9. [Export lists](#1xexport-lists)
-  10. [Prefer guards and pattern matches to if expressions](#1xiprefer-guards-and-pattern-matches-to-if-expressions)
-  11. [Case expressions](#1xiicase-expressions)
+  5. [No space after a lambda](#1vno-space-after-a-lambda)
+  6. [Lines must not have trailing spaces](#1vilines-must-not-have-trailing-spaces)
+  7. [Align data type constructors](#1viialign-data-type-constructors)
+  8. [Align elements in a list](#1viiialign-elements-in-a-list)
+  9. [Place pragmas after function definitions](#1ixplace-pragmas-after-function-definitions)
+  10. [Hanging lambdas](#1xhanging-lambdas)
+  11. [Export lists](#1xiexport-lists)
+  12. [Prefer guards and pattern matches to `if` expressions](#1xiiprefer-guards-and-pattern-matches-to-if-expressions)
+  13. [Case expressions](#1xiiicase-expressions)
 2. [Imports](#2imports)
   1. [Group imported modules by origin](#2igroup-imported-modules-by-origin)
-  2. [Sort imports alphabetically](#2iisort-imports-alphabetically)
+  2. [Separate import groups with a blank line](#2iiseparate-import-groups-with-a-blank-line)
+  3. [Sort imports alphabetically](#2iiisort-imports-alphabetically)
 3. [Comments](#3comments)
-  1. [Comment every exported definition](#3icomment-every-exported-definition)
+  1. [Use Haddock syntax in comments](#3iuse-haddock-syntax-in-comments)
+  2. [Comment every exported definition](#3iicomment-every-exported-definition)
+  3. [End-of-line comments](#3iiiend-of-line-comments)
+  4. [Links](#3ivLinks)
 4. [Names](#4names)
   1. [Use camel case for function names](#4iuse-camel-case-for-function-names)
   2. [Use upper camel case for type names](#4iiuse-upper-camel-case-for-type-names)
@@ -46,16 +51,20 @@ Table of contents
 
 ### 1.i.&emsp;Lines should be no longer than 80 characters
 
-Lines should not be longer than *80 characters*. URLs and inline
-markup within comments are an exception to this rule.
+Lines should not be longer than **80 characters**.
+
+#### Exceptions
+* URLs must not be split over multiple lines.
+* Markup within [Haddock] comments must sometimes exceed this limit.
 
 ### 1.ii.&emsp;Indent with spaces, not tabs
 
-Tabs must not be used; use spaces for indenting. Indent code blocks
-with *4 spaces*. Indent the `where` keyword two spaces to set it
-apart from the rest of the code, and indent the definitions in a
-`where` clause 2 spaces. Some examples:
+* Source files must not contain spaces; use spaces for indenting.
+* Indent code blocks with **4 spaces**.
+* Indent the `where` keyword **2 spaces** to set it apart from the rest
+  of the code, and indent the definitions in a `where` clause 2 spaces.
 
+#### Examples
 ```haskell
 sayHello :: IO ()
 sayHello = do
@@ -63,7 +72,9 @@ sayHello = do
     putStrLn $ greeting name
   where
     greeting name = "Hello, " ++ name ++ "!"
+```
 
+```haskell
 filter :: (a -> Bool) -> [a] -> [a]
 filter _ []     = []
 filter p (x : xs)
@@ -73,25 +84,30 @@ filter p (x : xs)
 
 ### 1.iii.&emsp;Separate top-level definitions with a blank line
 
-Use one blank line between top-level definitions. Do not place blank
-lines between type signatures and function definitions. Add one blank
-line between functions in a type class instance declaration if the
-functions bodies are large.
+* Use one blank line between top-level definitions.
+* Do not place blank lines between type signatures and function
+  definitions.
+* Add one blank line between functions in a type class instance
+  declaration if the functions bodies are large.
 
 ### 1.iv.&emsp;Whitespace
 
 Surround binary operators with a single space on either side; this is
-optional for arithmetic operators. Do not insert a space after the
-lambda symbol (`\`).
+optional for arithmetic operators.
 
-### 1.v.&emsp;Lines must not have trailing spaces
+### 1.iv.&emsp;No space after a lambda
+
+Do not insert a space after the lambda symbol (`\`).
+
+### 1.vi.&emsp;Lines must not have trailing spaces
 
 Remove any whitespace at the end of each line of source code.
 
-### 1.vi.&emsp;Align data type constructors
+### 1.vii.&emsp;Align data type constructors
 
-Align constructors in a data type definition. For example:
+Align constructors in a data type definition.
 
+#### Examples
 ```haskell
 data Tree a = Branch !a !(Tree a) !(Tree a)
             | Leaf
@@ -115,10 +131,11 @@ data Person = Person
     } deriving (Eq, Show)
 ```
 
-### 1.vii.&emsp;Align elements in a list
+### 1.viii.&emsp;Align elements in a list
 
-Align the elements in the list. For example:
+Align the elements in the list.
 
+#### Examples
 ```haskell
 exceptions =
     [ InvalidStatusCode
@@ -127,7 +144,7 @@ exceptions =
     ]
 ```
 
-You may omit the first newline.
+You may also omit the first newline.
 
 ```haskell
 directions = [ North
@@ -137,11 +154,11 @@ directions = [ North
              ]
 ```
 
-### 1.viii.&emsp;Place pragmas after function definitions
+### 1.ix.&emsp;Place pragmas after function definitions
 
 Place pragmas immediately following the function they apply to.
-For example:
 
+#### Examples
 ```haskell
 id :: a -> a
 id x = x
@@ -149,18 +166,20 @@ id x = x
 ```
 
 In the case of data type definitions, you must put the pragma before the
-type it applies to. For example:
+type it applies to.
 
+#### Examples
 ```haskell
 data Array e = Array
     {-# UNPACK #-} !Int
     !ByteArray
 ```
 
-### 1.ix.&emsp;Hanging lambdas
+### 1.x.&emsp;Hanging lambdas
 
-You may indent the code following a "hanging" lambda. Some examples:
+You may indent the code following a "hanging" lambda.
 
+#### Examples
 ```haskell
 bar :: IO ()
 bar = forM_ [1, 2, 3] $ \n -> do
@@ -173,8 +192,9 @@ foo = alloca 10 $ \a ->
       cFunction a b
 ```
 
-### 1.x.&emsp;Export lists
+### 1.xi.&emsp;Export lists
 
+### Examples
 Format export lists as follows:
 
 ```haskell
@@ -190,7 +210,7 @@ module Data.Set
     ) where
 ```
 
-### 1.xi.&emsp;Prefer guards and pattern matches to if expressions
+### 1.xii.&emsp;Prefer guards and pattern matches to if expressions
 
 Guards and pattern matches should be preferred over if-then-else
 expressions where possible. Short cases should be placed on a single line
@@ -238,26 +258,24 @@ foo = do
             addCycles 1
 ```
 
-### 1.xii.&emsp;Case expressions
+### 1.xiii.&emsp;Case expressions
 
-The alternatives in a case expression can either be indented using four
-spaces
+* The alternatives in a `case` expression can either be indented using
+  four spaces or be aligned to the `case` keyword.
+* Align arrows (`->`) when it helps readability.
 
+#### Examples
 ```haskell
 foobar = case something of
     Just j  -> foo
     Nothing -> bar
 ```
 
-or as
-
 ```haskell
 foobar = case something of
              Just j  -> foo
              Nothing -> bar
 ```
-
-Align the arrows (`->`) when it helps readability.
 
 2.&emsp;Imports
 ---------------
@@ -270,28 +288,43 @@ Imports should be grouped in the following order:
 2. related third-party imports
 3. local application or library specific imports
 
+### 2.ii&emsp;Separate import groups with a blank line
+
 Put a blank line between each group of imports.
 
-### 2.ii.&emsp;Sort imports alphabetically
+### 2.iii.&emsp;Sort imports alphabetically
 
 The imports in each import group should be sorted alphabetically by
 module name.
 
-### 2.iii.&emsp;Qualify imports or explicitly list imported symbols
+### 2.iv.&emsp;Qualify imports or explicitly list imported symbols
 
-Always use explicit import lists or `qualified` imports for standard and
-third-party libraries. This makes the code more robust against changes
-in these libraries. Exception: the Prelude.
+Always use explicit import lists or `qualified` imports for modules from
+standard and third-party libraries.
+
+#### Rationale
+This makes your code more robust against changes in imported modules.
+
+#### Exceptions
+The `Prelude` does not need to be `qualified` or have an implicit import
+list unless there is a namespace collision.
 
 3.&emsp;Comments
 ----------------
 
+### 3.i.&emsp;Use Haddock syntax in comments
+
+Use [Haddock] syntax in comments.
+
 ### 3.i.&emsp;Comment every exported definition
 
-Comment every top-level function (particularly exported functions), and
-provide a type signature; use Haddock syntax in the comments. Comment
-every exported data type. Function example:
+* Comment every top-level function&mdash;particularly exported functions.
+* Provide a type signature for every top-level function.
+* Comment every exported data type.
+* For functions, the documentation should give enough information to apply
+  the function without looking at the function's definition.
 
+#### Examples
 ```haskell
 -- | Send a message on a socket. The socket must be in a connected state.
 -- Returns the number of bytes sent. Applications are responsible for ensuring
@@ -301,11 +334,6 @@ send :: Socket      -- ^ Connected socket
      -> IO Int      -- ^ Bytes sent
 ```
 
-For functions, the documentation should give enough information to apply
-the function without looking at the function's definition.
-
-Record example:
-
 ```haskell
 -- | Bla bla bla.
 data Person = Person
@@ -314,7 +342,7 @@ data Person = Person
     }
 ```
 
-For fields that require longer comments, format them like so:
+Format fields that require longer comments as follows:
 
 ```haskell
 data Record = Record
@@ -330,14 +358,17 @@ data Record = Record
 
 ### 3.iii.&emsp;End-of-line comments
 
-Place at least two spaces between a comment and any preceding code.
-Align comments for data type definitions. Some examples:
+* Place at least two spaces between a comment and any preceding code.
+* Align comments for data type definitions.
 
+#### Examples
 ```haskell
 data Parser = Parser
     !Int         -- Current position
     !ByteString  -- Remaining input
+```
 
+```haskell
 foo :: Int -> Int
 foo n = salt * 32 + 9
   where
@@ -356,23 +387,47 @@ on it. Only add links for the first occurrence of a name in a comment.
 
 ### 4.i.&emsp;Use camel case for function names
 
-Use camel case (for example, `functionName`) when naming functions.
+Use camel case when naming functions.
+
+#### Examples
+
+* `functionName`
+
+#### Rationale
+Functions in Haskell must begin with a lower case letter.
 
 ### 4.ii.&emsp;Use upper camel case for type names
 
-Use upper camel case (for example, `DataType`) when naming data types.
+Use upper camel case when naming data types and constructors.
+
+#### Examples
+
+* `DataType`
+
+#### Rationale
+Data types and constructors in Haskell must begin with a capital letter.
 
 ### 4.iii&emsp;Do not use all capitals for acronyms
 
-For readability reasons, only capitalize the first letter of acronyms.
-For example, write `HttpServer` instead of `HTTPServer`. Exception: two
-letter acronyms (for example, `IO`).
+Only capitalize the first letter of acronyms.
+
+#### Examples
+Write `HttpServer` instead of `HTTPServer`.
+
+#### Rationale
+Names containing adjacent capitals that belong to separate words may
+hinder readability.
+
+#### Exception
+Two letter acronyms should have both letters capitalized&mdash;for example, `IO`.
 
 ### 4.iv.&emsp;Use the singular for module names
 
-Use the singular when naming modules; e.g., use `Data.Map` and
-`Data.ByteString.Internal` instead of `Data.Maps` and
-`Data.ByteString.Internals`.
+Use the singular when naming modules.
+
+#### Examples
+* Use `Data.Map` instead of `Data.Maps`.
+* Use `Data.ByteString.Internal` instead of `Data.ByteString.Internals`.
 
 5.&emsp;Strictness
 ------------------
@@ -382,9 +437,7 @@ By default, use strict data types and lazy functions.
 ### 5.i.&emsp;Make data types strict by default
 
 Constructor fields should be strict unless there is an explicit reason
-to make them lazy. This avoids many common pitfalls caused by too much
-laziness and reduces the amount of time the programmer has to spend
-thinking about evaluation order.
+to make them lazy.
 
 ```haskell
 -- Good
@@ -412,7 +465,7 @@ data Point = Point
     }
 ```
 
-As an alternative to the `UNPACK` pragma, you may place
+As an alternative to the [`UNPACK`] pragma, you may place
 
 ```haskell
 {-# OPTIONS_GHC -funbox-strict-fields #-}
@@ -420,19 +473,29 @@ As an alternative to the `UNPACK` pragma, you may place
 
 at the top of the file. Including this flag in the file itself instead
 of in the `.cabal` file is preferable as the optimization will be
-applied even if someone compiles the file using other means (i.e., the
-optimization is attached to the source code it belongs to).
+applied even if someone compiles the file using other means (in other
+words, the optimization is attached to the source code it belongs to).
 
-Note that `-funbox-strict-fields` applies to all strict fields, not just
-small fields (e.g., `Double` or `Int`). If you are using GHC 7.4 or
-later, you can use `NOUNPACK` to selectively opt-out for the unpacking
+Note that [`-funbox-strict-fields`] applies to all strict fields, not
+just small fields such as `Double` or `Int`. If you are using GHC 7.4 or
+later, you can use [`NOUNPACK`] to selectively opt-out for the unpacking
 enabled by `-funbox-strict-fields`.
+
+[`UNPACK`]: http://www.haskell.org/ghc/docs/latest/html/users_guide/pragmas.html#unpack-pragma
+[`-funbox-strict-fields`]: http://www.haskell.org/ghc/docs/latest/html/users_guide/flag-reference.html#options-f-compact
+[`NOUNPACK`]: http://www.haskell.org/ghc/docs/latest/html/users_guide/pragmas.html#nounpack-pragma
+
+#### Rationale
+This avoids many common pitfalls caused by too much laziness and reduces
+the amount of time the programmer has to spend thinking about evaluation
+order.
 
 ### 5.ii.&emsp;Make function arguments lazy by default
 
 Make function arguments lazy unless you explicitly need them to be
 strict.
 
+#### Examples
 The most common case when you need strict function arguments is in
 recursion with an accumulator:
 
@@ -449,12 +512,29 @@ mysum = go 0
 
 ### 6.i.&emsp;Avoid over-using point-free style
 
-For example, `f = (g .) . h` is harder to read than `f x = g . h x`.
+[Point-free style] should be avoided when it inhibits readability.
+
+[Point-free style]: http://www.haskell.org/haskellwiki/Pointfree
+
+#### Examples
+Prefer `f x = g . h x` to `f = (g .) . h`, which is harder to read.
 
 ### 6.ii.&emsp;Code must be warning-free
 
-Code should not produce warnings when compiled with `-Wall`.
+Code must not produce warnings when compiled with [`-Wall`].
+
+[`-Wall`]: http://www.haskell.org/ghc/docs/latest/html/users_guide/options-sanity.html
+
+#### Rationale
+Ignoring warnings that are false positives or benign can eventually
+make it difficult to identify warnings that are serious.
 
 ### 6.iii.&emsp;Do not escape newlines in strings
 
-Escaped newlines will make using the `CPP` language extension impossible.
+Escaped newlines will make using the [`CPP`] language extension
+impossible.
+
+[`CPP`]: http://www.haskell.org/ghc/docs/latest/html/users_guide/options-phases.html#c-pre-processor
+
+
+[Haddock]: http://www.haskell.org/haddock/
