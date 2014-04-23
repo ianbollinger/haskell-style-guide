@@ -15,13 +15,14 @@ Table of contents
   2. [Indent with spaces, not tabs](#1iiindent-with-spaces-not-tabs)
   3. [Separate top-level definitions with a blank line](#1iiiseparate-top-level-definitions-with-a-blank-line)
   4. [Whitespace](#1ivwhitespace)
-  5. [Align data type constructors](#1valign-data-type-constructors)
-  6. [Align elements in a list](#1vialign-elements-in-a-list)
-  7. [Place pragmas after function definitions](#1viiplace-pragmas-after-function-definitions)
-  8. [Hanging lambdas](#1viiihanging-lambdas)
-  9. [Export lists](#1ixexport-lists)
-  10. [Prefer guards and pattern matches to if expressions](#1xprefer-guards-and-pattern-matches-to-if-expressions)
-  11. [Case expressions](#1xicase-expressions)
+  5. [Lines must not have trailing spaces](#1vlines-must-not-have-trailing-spaces)
+  5. [Align data type constructors](#1vialign-data-type-constructors)
+  6. [Align elements in a list](#1viialign-elements-in-a-list)
+  7. [Place pragmas after function definitions](#1viiiplace-pragmas-after-function-definitions)
+  8. [Hanging lambdas](#1ixhanging-lambdas)
+  9. [Export lists](#1xexport-lists)
+  10. [Prefer guards and pattern matches to if expressions](#1xiprefer-guards-and-pattern-matches-to-if-expressions)
+  11. [Case expressions](#1xiicase-expressions)
 2. [Imports](#2imports)
   1. [Group imported modules by origin](#2igroup-imported-modules-by-origin)
   2. [Sort imports alphabetically](#2iisort-imports-alphabetically)
@@ -37,7 +38,8 @@ Table of contents
   2. [Make function arguments lazy by default](#5iimake-function-arguments-lazy-by-default)
 6. [Miscellaneous](#6miscellaneous)
   1. [Avoid over-using point-free style](#6iavoid-over-using-point-free-style)
-  2. [Code should be warning-free](#6iicode-should-be-warning-free)
+  2. [Code must be warning-free](#6iicode-must-be-warning-free)
+  3. [Do not escape newlines in strings](#6iido-not-escape-newlines-in-strings)
 
 1.&emsp;Formatting
 ------------------
@@ -82,7 +84,11 @@ Surround binary operators with a single space on either side; this is
 optional for arithmetic operators. Do not insert a space after the
 lambda symbol (`\`).
 
-### 1.v.&emsp;Align data type constructors
+### 1.v.&emsp;Lines must not have trailing spaces
+
+Remove any whitespace at the end of each line of source code.
+
+### 1.vi.&emsp;Align data type constructors
 
 Align constructors in a data type definition. For example:
 
@@ -109,7 +115,7 @@ data Person = Person
     } deriving (Eq, Show)
 ```
 
-### 1.vi.&emsp;Align elements in a list
+### 1.vii.&emsp;Align elements in a list
 
 Align the elements in the list. For example:
 
@@ -131,7 +137,7 @@ directions = [ North
              ]
 ```
 
-### 1.vii.&emsp;Place pragmas after function definitions
+### 1.viii.&emsp;Place pragmas after function definitions
 
 Place pragmas immediately following the function they apply to.
 For example:
@@ -151,7 +157,7 @@ data Array e = Array
     !ByteArray
 ```
 
-### 1.viii.&emsp;Hanging lambdas
+### 1.ix.&emsp;Hanging lambdas
 
 You may indent the code following a "hanging" lambda. Some examples:
 
@@ -167,7 +173,7 @@ foo = alloca 10 $ \a ->
       cFunction a b
 ```
 
-### 1.ix.&emsp;Export lists
+### 1.x.&emsp;Export lists
 
 Format export lists as follows:
 
@@ -184,7 +190,7 @@ module Data.Set
     ) where
 ```
 
-### 1.x.&emsp;Prefer guards and pattern matches to if expressions
+### 1.xi.&emsp;Prefer guards and pattern matches to if expressions
 
 Guards and pattern matches should be preferred over if-then-else
 expressions where possible. Short cases should be placed on a single line
@@ -232,7 +238,7 @@ foo = do
             addCycles 1
 ```
 
-### 1.xi.&emsp;Case expressions
+### 1.xii.&emsp;Case expressions
 
 The alternatives in a case expression can either be indented using four
 spaces
@@ -445,6 +451,10 @@ mysum = go 0
 
 For example, `f = (g .) . h` is harder to read than `f x = g . h x`.
 
-### 6.ii.&emsp;Code should be warning-free
+### 6.ii.&emsp;Code must be warning-free
 
 Code should not produce warnings when compiled with `-Wall`.
+
+### 6.iii.&emsp;Do not escape newlines in strings
+
+Escaped newlines will make using the @CPP@ language extension impossible.
