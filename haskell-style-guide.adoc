@@ -1,9 +1,9 @@
 Haskell style guide
 ===================
 Ian D. Bollinger <ian.bollinger@gmail.com>
-:icons:
+:toc:
+:toc-title: Table of contents
 :numbered:
-:website: http://asciidoc.org/
 
 Many open-source projects have their own style guide: a set of
 conventions, sometimes arbitrary, about how to write code for that
@@ -12,7 +12,7 @@ code has a consistent style. This document tries to cover the major
 areas of formatting and naming. When something is not covered by this
 guide, you should stay consistent with a project's existing source code.
 
-:toc:
+toc::[]
 
 Formatting
 ----------
@@ -25,7 +25,8 @@ Lines should not be longer than **80 characters**.
 Exceptions
 ^^^^^^^^^^
 * URLs must not be split over multiple lines.
-* Markup within [Haddock] comments must sometimes exceed this limit.
+* Markup within http://www.haskell.org/haddock/[Haddock] comments must
+  sometimes exceed this limit.
 
 Indent with spaces, not tabs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -37,22 +38,24 @@ Indent with spaces, not tabs
 
 Examples
 ^^^^^^^^
-```haskell
+[source,haskell]
+--------------------------------------------
 sayHello :: IO ()
 sayHello = do
     name <- getLine
     putStrLn $ greeting name
   where
     greeting name = "Hello, " ++ name ++ "!"
-```
+--------------------------------------------
 
-```haskell
+[source,haskell]
+-----------------------------------
 filter :: (a -> Bool) -> [a] -> [a]
 filter _ []     = []
 filter p (x : xs)
     | p x       = x : filter p xs
     | otherwise = filter p xs
-```
+-----------------------------------
 
 Separate top-level definitions with a blank line
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -86,28 +89,31 @@ Align constructors in a data type definition.
 
 Examples
 ^^^^^^^^
-```haskell
+[source,haskell]
+-------------------------------------------
 data Tree a = Branch !a !(Tree a) !(Tree a)
             | Leaf
-```
+-------------------------------------------
 
 For long type names, the following formatting is also acceptable:
 
-```haskell
+[source,haskell]
+---------------------------
 data HttpException
     = InvalidStatusCode Int
     | MissingContentHeader
-```
+---------------------------
 
 Format records as follows:
 
-```haskell
+[source,haskell]
+-------------------------------------------
 data Person = Person
     { firstName :: !String  -- ^ First name
     , lastName  :: !String  -- ^ Last name
     , age       :: !Int     -- ^ Age
     } deriving (Eq, Show)
-```
+-------------------------------------------
 
 Align elements in a list
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -116,23 +122,25 @@ Align the elements in the list.
 
 Examples
 ^^^^^^^^
-```haskell
+[source,haskell]
+--------------------------
 exceptions =
     [ InvalidStatusCode
     , MissingContentHeader
     , InternalServerError
     ]
-```
+--------------------------
 
 You may also omit the first newline.
 
-```haskell
+[source,haskell]
+--------------------
 directions = [ North
              , East
              , South
              , West
              ]
-```
+--------------------
 
 Place pragmas after function definitions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -141,22 +149,24 @@ Place pragmas immediately following the function they apply to.
 
 Examples
 ^^^^^^^^
-```haskell
+[source,haskell]
+-----------------
 id :: a -> a
 id x = x
 {-# INLINE id #-}
-```
+-----------------
 
 In the case of data type definitions, you must put the pragma before the
 type it applies to.
 
 Examples
 ^^^^^^^^
-```haskell
+[source,haskell]
+-----------------------
 data Array e = Array
     {-# UNPACK #-} !Int
     !ByteArray
-```
+-----------------------
 
 Hanging lambdas
 ~~~~~~~~~~~~~~~
@@ -166,16 +176,20 @@ You may indent the code following a "hanging" lambda.
 Examples
 ^^^^^^^^
 [source,haskell]
+-----------------------------------------
 bar :: IO ()
 bar = forM_ [1, 2, 3] $ \n -> do
           putStrLn "Here comes a number!"
           print n
+-----------------------------------------
 
 [source,haskell]
+-----------------------
 foo :: IO ()
 foo = alloca 10 $ \a ->
       alloca 20 $ \b ->
       cFunction a b
+-----------------------
 
 Export lists
 ~~~~~~~~~~~~
@@ -185,6 +199,7 @@ Examples
 Format export lists as follows:
 
 [source,haskell]
+-------------------------
 module Data.Set
     (
       -- * The @Set@ type
@@ -195,6 +210,7 @@ module Data.Set
       -- * Querying
     , member
     ) where
+-------------------------
 
 Prefer guards and pattern matches to if expressions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -208,28 +224,35 @@ and pattern matches cannot be used, align if-then-else expressions as
 you would other expressions:
 
 [source,haskell]
+----------------
 foo = if ...
       then ...
       else ...
+----------------
 
 Otherwise, be consistent with the four-space indent rule. Align the
 `then` and `else` keywords. Some examples:
 
 [source,haskell]
+--------------------------------
 foo = do
     someCode
     if condition
         then someMoreCode
         else someAlternativeCode
+--------------------------------
 
 [source,haskell]
+------------------------------------
 foo = bar $ \qux -> if predicate qux
     then doSomethingSilly
     else someOtherCode
+------------------------------------
 
 The same rule applies to nested `do` blocks:
 
 [source,haskell]
+-----------------------------------------------------
 foo = do
     instruction <- decodeInstruction
     skip <- load Memory.skip
@@ -240,6 +263,7 @@ foo = do
         else do
             store Memory.skip 0x0000
             addCycles 1
+-----------------------------------------------------
 
 Case expressions
 ~~~~~~~~~~~~~~~~
@@ -251,14 +275,18 @@ Case expressions
 Examples
 ^^^^^^^^
 [source,haskell]
+--------------------------
 foobar = case something of
     Just j  -> foo
     Nothing -> bar
+--------------------------
 
 [source,haskell]
+---------------------------
 foobar = case something of
              Just j  -> foo
              Nothing -> bar
+---------------------------
 
 Imports
 -------
@@ -304,36 +332,42 @@ Comments
 Use Haddock syntax in comments
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Use [Haddock] syntax in comments.
+Use http://www.haskell.org/haddock/[Haddock] syntax in comments.
 
 Comment every exported definition
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-* Comment every top-level function&mdash;particularly exported functions.
+* Comment every top-level function--particularly exported functions.
 * Provide a type signature for every top-level function.
 * Comment every exported data type.
 * For functions, the documentation should give enough information to apply
   the function without looking at the function's definition.
 
-#### Examples
+Examples
+^^^^^^^^
 [source,haskell]
+------------------------------------------------------------------------------
 -- | Send a message on a socket. The socket must be in a connected state.
 -- Returns the number of bytes sent. Applications are responsible for ensuring
 -- that all data has been sent.
 send :: Socket      -- ^ Connected socket
      -> ByteString  -- ^ Data to send
      -> IO Int      -- ^ Bytes sent
+------------------------------------------------------------------------------
 
 [source,haskell]
+--------------------------------------
 -- | Bla bla bla.
 data Person = Person
     { age  :: !Int     -- ^ Age
     , name :: !String  -- ^ First name
     }
+--------------------------------------
 
 Format fields that require longer comments as follows:
 
 [source,haskell]
+----------------------------------------------------------------------------
 data Record = Record
     { -- | This is a very very very long comment that is split over multiple
       -- lines.
@@ -343,6 +377,7 @@ data Record = Record
       -- multiple lines.
     , field2 :: !Int
     }
+----------------------------------------------------------------------------
 
 End-of-line comments
 ~~~~~~~~~~~~~~~~~~~~
@@ -353,15 +388,19 @@ End-of-line comments
 Examples
 ^^^^^^^^
 [source,haskell]
+------------------------------------
 data Parser = Parser
     !Int         -- Current position
     !ByteString  -- Remaining input
+------------------------------------
 
 [source,haskell]
+-----------------------------------------
 foo :: Int -> Int
 foo n = salt * 32 + 9
   where
     salt = 453645243  -- Magic hash salt.
+-----------------------------------------
 
 Links
 ~~~~~
@@ -418,7 +457,7 @@ hinder readability.
 
 Exception
 ^^^^^^^^^
-Two letter acronyms should have both letters capitalized&mdash;for
+Two letter acronyms should have both letters capitalized--for
 example, `IO`.
 
 Use the singular for module names
@@ -443,46 +482,55 @@ Constructor fields should be strict unless there is an explicit reason
 to make them lazy.
 
 [source,haskell]
+------------------------------------------
 -- Good
 data Point = Point
     { pointX :: !Double  -- ^ X coordinate
     , pointY :: !Double  -- ^ Y coordinate
     }
+------------------------------------------
 
 [source,haskell]
+-----------------------------------------
 -- Bad
 data Point = Point
     { pointX :: Double  -- ^ X coordinate
     , pointY :: Double  -- ^ Y coordinate
     }
+-----------------------------------------
 
 Additionally, unpacking simple fields often improves performance and
 reduces memory usage:
 
 [source,haskell]
+---------------------------------------------------------
 data Point = Point
     { pointX :: {-# UNPACK #-} !Double  -- ^ X coordinate
     , pointY :: {-# UNPACK #-} !Double  -- ^ Y coordinate
     }
+---------------------------------------------------------
 
-As an alternative to the [`UNPACK`] pragma, you may place
+As an alternative to the
+http://www.haskell.org/ghc/docs/latest/html/users_guide/pragmas.html#unpack-pragma[`UNPACK`]
+pragma, you may place
 
 [source,haskell]
+-----------------------------------------
 {-# OPTIONS_GHC -funbox-strict-fields #-}
+-----------------------------------------
 
 at the top of the file. Including this flag in the file itself instead
 of in the `.cabal` file is preferable as the optimization will be
 applied even if someone compiles the file using other means (in other
 words, the optimization is attached to the source code it belongs to).
 
-Note that [`-funbox-strict-fields`] applies to all strict fields, not
-just small fields such as `Double` or `Int`. If you are using GHC 7.4 or
-later, you can use [`NOUNPACK`] to selectively opt-out for the unpacking
-enabled by `-funbox-strict-fields`.
-
-[`UNPACK`]: http://www.haskell.org/ghc/docs/latest/html/users_guide/pragmas.html#unpack-pragma
-[`-funbox-strict-fields`]: http://www.haskell.org/ghc/docs/latest/html/users_guide/flag-reference.html#options-f-compact
-[`NOUNPACK`]: http://www.haskell.org/ghc/docs/latest/html/users_guide/pragmas.html#nounpack-pragma
+Note that
+http://www.haskell.org/ghc/docs/latest/html/users_guide/flag-reference.html#options-f-compact[`-funbox-strict-fields`]
+applies to all strict fields, not just small fields such as `Double` or
+`Int`. If you are using GHC 7.4 or later, you can use
+http://www.haskell.org/ghc/docs/latest/html/users_guide/pragmas.html#nounpack-pragma[`NOUNPACK`]
+to selectively opt-out for the unpacking enabled by
+`-funbox-strict-fields`.
 
 Rationale
 ^^^^^^^^^
@@ -502,11 +550,13 @@ The most common case when you need strict function arguments is in
 recursion with an accumulator:
 
 [source,haskell]
+-------------------------------------
 mysum :: [Int] -> Int
 mysum = go 0
   where
     go !acc []      = acc
     go acc (x : xs) = go (acc + x) xs
+-------------------------------------
 
 Miscellaneous
 -------------
@@ -514,9 +564,8 @@ Miscellaneous
 Avoid over-using point-free style
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[Point-free style] should be avoided when it inhibits readability.
-
-[Point-free style]: http://www.haskell.org/haskellwiki/Pointfree
+http://www.haskell.org/haskellwiki/Pointfree[Point-free style] should be
+avoided when it inhibits readability.
 
 Examples
 ^^^^^^^^
@@ -525,9 +574,8 @@ Prefer `f x = g . h x` to `f = (g .) . h`, which is harder to read.
 Code must be warning-free
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Code must not produce warnings when compiled with [`-Wall`].
-
-[`-Wall`]: http://www.haskell.org/ghc/docs/latest/html/users_guide/options-sanity.html
+Code must not produce warnings when compiled with
+http://www.haskell.org/ghc/docs/latest/html/users_guide/options-sanity.html[`-Wall`].
 
 Rationale
 ^^^^^^^^^
@@ -537,10 +585,7 @@ make it difficult to identify warnings that are serious.
 Do not escape newlines in strings
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Escaped newlines will make using the [`CPP`] language extension
-impossible.
+Escaped newlines will make using the
+http://www.haskell.org/ghc/docs/latest/html/users_guide/options-phases.html#c-pre-processor[`CPP`]
+language extension impossible.
 
-[`CPP`]: http://www.haskell.org/ghc/docs/latest/html/users_guide/options-phases.html#c-pre-processor
-
-
-[Haddock]: http://www.haskell.org/haddock/
