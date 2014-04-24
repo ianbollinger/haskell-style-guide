@@ -8,48 +8,14 @@ code has a consistent style. This document tries to cover the major
 areas of formatting and naming. When something is not covered by this
 guide, you should stay consistent with a project's existing source code.
 
-Table of contents
------------------
-1. [Formatting](#1formatting)
-  1. [Lines should be no longer than 80 characters](#1ilines-should-be-no-longer-than-80-characters)
-  2. [Indent with spaces, not tabs](#1iiindent-with-spaces-not-tabs)
-  3. [Separate top-level definitions with a blank line](#1iiiseparate-top-level-definitions-with-a-blank-line)
-  4. [Whitespace](#1ivwhitespace)
-  5. [No space after a lambda](#1vno-space-after-a-lambda)
-  6. [Lines must not have trailing spaces](#1vilines-must-not-have-trailing-spaces)
-  7. [Align data type constructors](#1viialign-data-type-constructors)
-  8. [Align elements in a list](#1viiialign-elements-in-a-list)
-  9. [Place pragmas after function definitions](#1ixplace-pragmas-after-function-definitions)
-  10. [Hanging lambdas](#1xhanging-lambdas)
-  11. [Export lists](#1xiexport-lists)
-  12. [Prefer guards and pattern matches to `if` expressions](#1xiiprefer-guards-and-pattern-matches-to-if-expressions)
-  13. [Case expressions](#1xiiicase-expressions)
-2. [Imports](#2imports)
-  1. [Group imported modules by origin](#2igroup-imported-modules-by-origin)
-  2. [Separate import groups with a blank line](#2iiseparate-import-groups-with-a-blank-line)
-  3. [Sort imports alphabetically](#2iiisort-imports-alphabetically)
-3. [Comments](#3comments)
-  1. [Use Haddock syntax in comments](#3iuse-haddock-syntax-in-comments)
-  2. [Comment every exported definition](#3iicomment-every-exported-definition)
-  3. [End-of-line comments](#3iiiend-of-line-comments)
-  4. [Links](#3ivLinks)
-4. [Names](#4names)
-  1. [Use camel case for function names](#4iuse-camel-case-for-function-names)
-  2. [Use upper camel case for type names](#4iiuse-upper-camel-case-for-type-names)
-  3. [Do not use all capitals for acronyms](#4iii-do-not-use-all-capitals-for-acronyms)
-  4. [Use the singular for module names](#4ivuse-the-singular-for-module-names)
-5. [Strictness](#5strictness)
-  1. [Make data types strict by default](#5imake-data-types-strict-by-default)
-  2. [Make function arguments lazy by default](#5iimake-function-arguments-lazy-by-default)
-6. [Miscellaneous](#6miscellaneous)
-  1. [Avoid over-using point-free style](#6iavoid-over-using-point-free-style)
-  2. [Code must be warning-free](#6iicode-must-be-warning-free)
-  3. [Do not escape newlines in strings](#6iiido-not-escape-newlines-in-strings)
+.. contents:: Table of contents
+   :depth: 2
+.. sectnum::
 
-1.&emsp;Formatting
-------------------
+Formatting
+----------
 
-### 1.i.&emsp;Lines should be no longer than 80 characters
+### Lines should be no longer than 80 characters
 
 Lines should not be longer than **80 characters**.
 
